@@ -19,8 +19,8 @@ public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_flight")
-    private Long idFlight;
+    @Column(name = "id_flight")
+    private int idFlight;
 
     @Column(name = "departure_city")
     private String departureCity;
@@ -53,7 +53,7 @@ public class Flight {
 
     // Constructors, getters and setters
 
-    public Long getIdFlight() {
+    public int getIdFlight() {
         return idFlight;
     }
 

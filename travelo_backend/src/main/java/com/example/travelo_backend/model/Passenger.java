@@ -13,8 +13,8 @@ public class Passenger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_passenger")
-    private Long idPassenger;
+    @Column(name = "id_passenger")
+    private int idPassenger;
 
     @Column(name = "first_name",nullable = false)
     private String firstName;
@@ -33,7 +33,7 @@ public class Passenger {
 
     // Constructors, getters and setters
 
-    public Long getIdPassenger() {
+    public int getIdPassenger() {
         return idPassenger;
     }
 

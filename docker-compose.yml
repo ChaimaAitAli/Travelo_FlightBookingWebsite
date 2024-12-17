@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  travelo-database:
+    image: mysql:8.0.40-debian
+    container_name: travelo-database
+    environment:
+      MYSQL_ROOT_PASSWORD: chaima2003
+      MYSQL_DATABASE: travelo_db
+    ports:
+      - "3307:3306"
+    networks:
+      - travelo-network
+    volumes:
+      - db_data:/var/lib/mysql
+
+  travelo-backend:
+    image: localhost:7000/travelo-backend:latest
+    container_name: travelo-backend
+    build:
+      context: ./travelo_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://travelo-database:3306/travelo_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: chaima2003
+    ports:
+      - "8080:8080"
+    depends_on:
+      - travelo-database
+    networks:
+      - travelo-network
+
+  travelo-frontend:
+    image: localhost:7000/travelo-frontend:latest
+    container_name: travelo-frontend
+    build:
+      context: ./travelo_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - travelo-backend
+    networks:
+      - travelo-network
+
+networks:
+  travelo-network:
+    driver: bridge
+
+volumes:
+  db_data:

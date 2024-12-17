@@ -14,14 +14,14 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private int id; 
 
     @ManyToOne
-    @JoinColumn(name = "Id_passenger")
+    @JoinColumn(name = "id_passenger")
     private Passenger passenger;
 
     @ManyToOne
-    @JoinColumn(name = "Id_flight")
+    @JoinColumn(name = "id_flight")
     private Flight flight;
 
     @Column(name = "seat")
@@ -29,7 +29,7 @@ public class Reservation {
 
     // Constructors, getters and setters
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 

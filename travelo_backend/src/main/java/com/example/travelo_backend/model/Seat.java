@@ -3,6 +3,8 @@ package com.example.travelo_backend.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -10,8 +12,11 @@ import jakarta.persistence.Table;
 public class Seat {
 
     @Id
-    @Column(name = "Id_flight")
-    private Long idFlight;
+    private int id;
+
+    @OneToOne
+    @JoinColumn(name = "id_flight")
+    private Flight flight;
 
     @Column(name = "a1")
     private String a1;
@@ -122,9 +127,12 @@ public class Seat {
     private String d9;
 
     // Constructors, getters and setters 
+    public int getId() {
+        return id;
+    }
 
-    public Long getIdFlight() {
-        return idFlight;
+    public int getIdFlight() {
+        return this.flight.getIdFlight();
     }
 
     public String getA1() {
