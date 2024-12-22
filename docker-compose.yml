@@ -1,49 +1,82 @@
 version: "3.8"
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80" # HTTP
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - travelo-network
+    depends_on:
+      - travelo-frontend
+      - travelo-backend
+      - travelo-database
+
   travelo-database:
     image: mysql:8.0.40-debian
-    container_name: travelo-database
     environment:
       MYSQL_ROOT_PASSWORD: chaima2003
       MYSQL_DATABASE: travelo_db
     ports:
-      - "3307:3306"
+      - "3307:3306" # Expose database on port 3307
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     networks:
       - travelo-network
     volumes:
       - db_data:/var/lib/mysql
 
   travelo-backend:
-    image: localhost:7000/travelo-backend:latest
-    container_name: travelo-backend
-    build:
-      context: ./travelo_backend
+    image: localhost:7000/travelo-backend-proxy:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://travelo-database:3306/travelo_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: chaima2003
-    ports:
-      - "8080:8080"
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    networks:
+      - travelo-network
     depends_on:
       - travelo-database
-    networks:
-      - travelo-network
 
   travelo-frontend:
-    image: localhost:7000/travelo-frontend:latest
-    container_name: travelo-frontend
-    build:
-      context: ./travelo_frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - travelo-backend
+    image: localhost:7000/travelo-frontend-proxy:latest
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     networks:
       - travelo-network
+    depends_on:
+      - travelo-backend
 
 networks:
   travelo-network:
-    driver: bridge
+    driver: overlay
 
 volumes:
   db_data:
+    driver: local

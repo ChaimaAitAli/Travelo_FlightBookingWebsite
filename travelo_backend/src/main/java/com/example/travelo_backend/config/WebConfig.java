@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**") // Apply to all endpoints
-                        .allowedOrigins("http://localhost:3000") // React frontend URL
+                        .allowedOrigins("http://frontend.travelo.local") // React frontend URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed methods
                         .allowedHeaders("*") // Allow all headers
                         .allowCredentials(true); 
