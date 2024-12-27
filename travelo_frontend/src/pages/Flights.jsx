@@ -34,7 +34,7 @@ const Flights = () => {
     const fetchSeatData = async (flightId) => {
       try {
         const response = await fetch(
-          `http://backend.travelo.local/api/seats/${flightId}`
+          `http://backend.exam.local/api/seats/${flightId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -55,8 +55,8 @@ const Flights = () => {
   const processSeatData = (data) => {
     return Object.entries(data).map(([key, value]) => ({
       id: key, // The seat ID (e.g., "d1")
-      name: key, // Seat name (you can modify this if needed)
-      status: value, // Status (e.g., "empty" or "taken")
+      name: key,
+      status: value, // Status ("empty" or "taken")
     }));
   };
 
@@ -68,7 +68,7 @@ const Flights = () => {
   const handleReserveButtonClick = async () => {
     try {
       const response = await fetch(
-        "http://backend.travelo.local/api/reservations/reserve",
+        "http://backend.exam.local/api/reservations/reserve",
         {
           method: "POST",
           headers: {

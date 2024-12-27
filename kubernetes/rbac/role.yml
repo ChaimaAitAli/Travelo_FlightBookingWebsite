@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: exam
+  name: exam-role
+rules:
+  - apiGroups: [""] # Pour les ressources de l'API principale, comme pods, services, configmaps, secrets
+    resources: ["pods", "services", "configmaps", "secrets"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+  - apiGroups: ["apps"] # Pour les ressources dans l'API apps, comme deployments, statefulsets
+    resources: ["deployments", "statefulsets"]
+    verbs: ["get", "list", "watch", "create", "update"]

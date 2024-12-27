@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: exam
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: chaimaaitali/frontend-image-ingress:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "250m" # 0.25 CPU
+              memory: "256Mi"
+            limits:
+              cpu: "500m" # 0.5 CPU
+              memory: "512Mi"
+          env:
+            - name: API_URL
+              value: "http://backend-service:8080"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10

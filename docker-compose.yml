@@ -26,10 +26,6 @@ services:
         limits:
           cpus: "0.5"
           memory: 512M
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
     networks:
       - travelo-network
     volumes:
@@ -47,10 +43,6 @@ services:
         limits:
           cpus: "1.0"
           memory: 1G
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
     networks:
       - travelo-network
     depends_on:
@@ -64,10 +56,6 @@ services:
         limits:
           cpus: "0.5"
           memory: 512M
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
     networks:
       - travelo-network
     depends_on:
