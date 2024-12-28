@@ -34,7 +34,7 @@ const Flights = () => {
     const fetchSeatData = async (flightId) => {
       try {
         const response = await fetch(
-          `http://backend.exam.local/api/seats/${flightId}`
+          `http://backend.helm.local/api/seats/${flightId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -68,7 +68,7 @@ const Flights = () => {
   const handleReserveButtonClick = async () => {
     try {
       const response = await fetch(
-        "http://backend.exam.local/api/reservations/reserve",
+        "http://backend.helm.local/api/reservations/reserve",
         {
           method: "POST",
           headers: {

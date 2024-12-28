@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "travelo.fullname" . }}-backend-test-connection"
+  labels:
+    {{- include "travelo.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "travelo.fullname" . }}-backend-service:{{ .Values.backend.service.port }}']
+  restartPolicy: Never

@@ -1,0 +1,55 @@
+# Namespace
+namespace: helm
+
+# Backend Configuration
+backend:
+  image: chaimaaitali/travelo-backend-helm:latest
+  replicas: 1
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+  env:
+    SPRING_DATASOURCE_URL: jdbc:mysql://database-service:3306/travelo_db
+  service:
+    port: 8080
+
+# Frontend Configuration
+frontend:
+  image: chaimaaitali/travelo-frontend-helm:latest
+  replicas: 1
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  env:
+    API_URL: http://backend-service:8080
+  service:
+    port: 3000
+
+# Database Configuration
+database:
+  image: mysql:8.0.40-debian
+  replicas: 1
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "200Mi"
+    limits:
+      cpu: "500m"
+      memory: "500Mi"
+  env:
+    MYSQL_ROOT_PASSWORD: chaima2003
+    MYSQL_DATABASE: travelo_db
+    MYSQL_USERNAME: root
+    MYSQL_PASSWORD: chaima2003
+  pvc:
+    size: 200Mi
+  service:
+    port: 3306

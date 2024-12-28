@@ -89,7 +89,7 @@ const BookingPage = () => {
       }).toString();
 
       const response = await fetch(
-        `http://backend.exam.local/api/flights/search?${queryParams}`,
+        `http://backend.helm.local/api/flights/search?${queryParams}`,
         {
           method: "GET",
           headers: {
@@ -238,9 +238,8 @@ const BookingPage = () => {
           />
         </div>
         <button
-          className={`SearchButton ${
-            showSearchButton ? "activeSearchButton" : "inactiveSearchButton"
-          }`}
+          className={`SearchButton ${showSearchButton ? "activeSearchButton" : "inactiveSearchButton"
+            }`}
           onClick={() => {
             if (showSearchButton) {
               console.log("Search button clicked. Submitting...");

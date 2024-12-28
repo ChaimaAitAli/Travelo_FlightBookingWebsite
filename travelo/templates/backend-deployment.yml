@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-  namespace: exam
+  namespace: {{ .Values.namespace }}
   labels:
     app: backend
 spec:
-  replicas: 2
+  replicas: {{ .Values.backend.replicas }}
   selector:
     matchLabels:
       app: backend
@@ -15,22 +15,21 @@ spec:
       labels:
         app: backend
     spec:
-      serviceAccountName: backend-sa
       containers:
         - name: backend
-          image: chaimaaitali/backend-image-ingress:latest
+          image: {{ .Values.backend.image }}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.backend.service.port }}
           resources:
             requests:
-              cpu: "250m"
-              memory: "512Mi"
+              cpu: {{ .Values.backend.resources.requests.cpu }}
+              memory: {{ .Values.backend.resources.requests.memory }}
             limits:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: {{ .Values.backend.resources.limits.cpu }}
+              memory: {{ .Values.backend.resources.limits.memory }}
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://database-service:3306/travelo_db"
+              value: {{ .Values.backend.env.SPRING_DATASOURCE_URL }}
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
