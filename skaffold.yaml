@@ -1,0 +1,66 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: travelo-app
+build:
+  artifacts:
+    - image: chaimaaitali/travelo-backend-skaffold
+      context: ./travelo_backend
+      docker:
+        dockerfile: Dockerfile
+    - image: chaimaaitali/travelo-frontend-skaffold
+      context: ./travelo_frontend
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: true
+
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/namespace.yaml
+      - kubernetes/rbac/*.yaml
+      - kubernetes/database/database-secret.yaml
+      - kubernetes/database/database-service.yaml
+      - kubernetes/database/database-statefulset.yaml
+      - kubernetes/database/database-pdb.yaml
+      - kubernetes/backend/backend-configmap.yaml
+      - kubernetes/backend/backend-service.yaml
+      - kubernetes/backend/backend-deployment.yaml
+      - kubernetes/backend/backend-pdb.yaml
+      - kubernetes/frontend/frontend-service.yaml
+      - kubernetes/frontend/frontend-deployment.yaml
+      - kubernetes/frontend/frontend-pdb.yaml
+      - kubernetes/ingress.yaml
+
+profiles:
+  - name: prod
+    build:
+      artifacts:
+        - image: chaimaaitali/travelo-backend-skaffold
+          context: ./travelo_backend
+          docker:
+            dockerfile: Dockerfile
+        - image: chaimaaitali/travelo-frontend-skaffold
+          context: ./travelo_frontend
+          docker:
+            dockerfile: Dockerfile
+      local:
+        push: true
+    deploy:
+      kubectl:
+        manifests:
+          - kubernetes/namespace.yaml
+          - kubernetes/rbac/*.yaml
+          - kubernetes/database/database-secret.yaml
+          - kubernetes/database/database-service.yaml
+          - kubernetes/database/database-statefulset.yaml
+          - kubernetes/database/database-pdb.yaml
+          - kubernetes/backend/backend-configmap.yaml
+          - kubernetes/backend/backend-service.yaml
+          - kubernetes/backend/backend-deployment.yaml
+          - kubernetes/backend/backend-pdb.yaml
+          - kubernetes/frontend/frontend-service.yaml
+          - kubernetes/frontend/frontend-deployment.yaml
+          - kubernetes/frontend/frontend-pdb.yaml
+          - kubernetes/ingress.yaml

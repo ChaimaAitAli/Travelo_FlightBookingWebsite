@@ -89,7 +89,7 @@ const BookingPage = () => {
       }).toString();
 
       const response = await fetch(
-        `http://backend.helm.local/api/flights/search?${queryParams}`,
+        `http://backend.exam.local/api/flights/search?${queryParams}`,
         {
           method: "GET",
           headers: {

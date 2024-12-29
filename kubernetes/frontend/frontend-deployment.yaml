@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: chaimaaitali/frontend-image-ingress:latest
+          image: chaimaaitali/travelo-frontend-skaffold
           ports:
             - containerPort: 3000
           resources:
